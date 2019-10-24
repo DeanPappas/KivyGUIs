@@ -2,42 +2,11 @@
 import kivy
 from kivy.app import App
 from kivy.uix.label import Label
-from kivy.lang import Builder
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.config import Config
 Config.set('graphics', 'fullscreen', 'auto')
-
-
-<<<<<<< HEAD
-=======
-screen_manager = ScreenManager()
-Builder.load_string("""
-<ScreenOne>:
-    BoxLayout:
-        Button:
-            text: "Go to Screen 2"
-            on_press:
-                # You can define the duration of the change
-                # and the direction of the slide
-                root.manager.transition.direction = 'left'
-                root.manager.transition.duration = 1
-                root.manager.current = 'screen_two'
-""")
-
-
-
-
-class ScreenOne(Screen):
-    pass
-
-
-class ScreenTwo(Screen):    
-    pass
-
-
->>>>>>> 45ec60bfa8b0acf19f3f2e1f543fea74b38b8249
 
 class MyGrid(GridLayout):
     def __init__(self, **kwargs):
@@ -105,16 +74,9 @@ class MyGrid(GridLayout):
         
 # ----------------------------------- Running the app -----------------------------------
 class MyApp(App):
-<<<<<<< HEAD
-	def build(self):
-		return MyGrid()
-	
-		
-=======
     def build(self):
-        return screen_manager
+        return MyGrid()
     
         
->>>>>>> 45ec60bfa8b0acf19f3f2e1f543fea74b38b8249
 if __name__ == "__main__":
     MyApp().run()
