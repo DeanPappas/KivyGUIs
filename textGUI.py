@@ -11,7 +11,7 @@ Config.set('graphics', 'width', '600')
 Config.set('graphics', 'height', '80')
 
 accountSID = 'AC29ee37284a70927284dfd0e7bdcb3b89'
-authToken = '634774b3735d1e3e82ebf813d1fd3b2c'
+authToken = '6d3ea8e996a90a495bdceba652801899'
 myNumber = '+18479158252'
 twilioNumber = '+13344599879'
 
