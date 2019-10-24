@@ -1,120 +1,196 @@
-#https://kivy.org/#home to install kivy
-import kivy
 from kivy.app import App
-from kivy.uix.label import Label
 from kivy.lang import Builder
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.textinput import TextInput
-from kivy.uix.button import Button
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.config import Config
 Config.set('graphics', 'fullscreen', 'auto')
 
+kv_text = """\
+<MainScreen>:
+    FirstScreen:
+    SecondScreen:
+	ThirdScreen:
 
-<<<<<<< HEAD
-=======
-screen_manager = ScreenManager()
-Builder.load_string("""
-<ScreenOne>:
-    BoxLayout:
-        Button:
-            text: "Go to Screen 2"
-            on_press:
-                # You can define the duration of the change
-                # and the direction of the slide
-                root.manager.transition.direction = 'left'
-                root.manager.transition.duration = 1
-                root.manager.current = 'screen_two'
-""")
+<FirstScreen>:
+    name: "first_screen"
+    GridLayout:
+        rows: 3
+        padding: 0
+        spacing: 0
+		BoxLayout:
+			size_hint_y: None
+			height: 100
+            spacing: 0
+            Button:
+                text:'RGBY'
+                on_press: 
+					app.root.current = 'first_screen'
+            Button:
+                text:'TOVP'
+                on_press: 
+					app.root.transition.direction = 'left'
+					app.root.transition.duration = .7
+					app.root.current = 'second_screen'
+            Button:
+                text:'BWG'
+                on_press: 
+					app.root.transition.direction = 'left'
+					app.root.current = 'third_screen'
+        BoxLayout:
+            spacing: 0
+            Button:
+				background_color: (0, 0, 2, 2)
+                text:''
+                on_press: print(app.root)
+            Button:
+				background_color: (2, 0, 0, 2)
+                text:''
+                on_press: print('Button X')
+            Button:
+                text:'+'
+                on_press: print('placeholder')
+		BoxLayout:
+			spacing: 0
+            Button:
+				background_color: (0, 2, 0, 2)
+                text:''
+                on_press: print(app.root)
+            Button:
+				background_color: (2, 2, 0, 1)
+                text:''
+                on_press: print('Button X')
+            Button:
+                text:'-'
+                on_press: print('tasklj')
 
+<SecondScreen>:
+    name: "second_screen"
+    GridLayout:
+        rows: 3
+        padding: 0
+        spacing: 0
+		BoxLayout:
+			size_hint_y: None
+			height: 100
+            spacing: 0
+            Button:
+                text:'RGBY'
+                on_press: 
+					app.root.transition.direction = 'right'
+					app.root.transition.duration = .7
+					app.root.current = 'first_screen'
+            Button:
+                text:'TOVP'
+                on_press: app.root.current = 'second_screen'
+            Button:
+                text:'BWG'
+                on_press: 
+					app.root.transition.direction = 'left'
+					app.root.transition.duration = .7
+					app.root.current = 'third_screen'
+        BoxLayout:
+            spacing: 0
+            Button:
+				background_color: (.5, 1, .8, 1)
+                text:''
+                on_press: print(app.root)
+            Button:
+				background_color: (4, .5, .2, 1)
+                text:''
+                on_press: print('Button X')
+            Button:
+                text:'+'
+                on_press: print('placeholder')
+		BoxLayout:
+			spacing: 0
+            Button:
+				background_color: (1, 0, 1, 1)
+                text:''
+                on_press: print(app.root)
+            Button:
+				background_color: (3, 2, 2, 1)
+                text:''
+                on_press: print('Button X')
+            Button:
+                text:'-'
+                on_press: print('tasklj')
+				
+<ThirdScreen>:
+    name: "third_screen"
+    GridLayout:
+        rows: 3
+        padding: 0
+        spacing: 0
+		BoxLayout:
+			size_hint_y: None
+			height: 100
+            spacing: 0
+            Button:
+                text:'RGBY'
+                on_press: 
+					app.root.transition.direction = 'right'
+					app.root.transition.duration = .7
+					app.root.current = 'first_screen'
+            Button:
+                text:'TOVP'
+                on_press: 
+					app.root.transition.direction = 'right'
+					app.root.transition.duration = .7
+					app.root.current = 'second_screen'
+            Button:
+                text:'BWG'
+                on_press: app.root.current = 'third_screen'
+        BoxLayout:
+            spacing: 0
+            Button:
+				background_color: (2, 2, 2, 1)
+                text:''
+                on_press: print('tajekj')
+            Button:
+				background_color: (1, 1, 1, 1)
+                text:''
+                on_press: print('Button X')
+            Button:
+                text:'+'
+                on_press: print('placeholder')
+		BoxLayout:
+			spacing: 0
+            Button:
+				background_color: (0, 0, 0, .5)
+                text:''
+                on_press: print(app.root)
+            Button:
+				background_color: (5, 5, 5, 1)
+                text:''
+                on_press: print('Button X')
+            Button:
+                text:'-'
+                on_press: print('tasklj')
+"""
 
+class MainScreen(ScreenManager):
+    def __init__(self):
+        super(MainScreen, self).__init__()
 
-
-class ScreenOne(Screen):
+class FirstScreen(Screen):
+    #some methods
     pass
 
-
-class ScreenTwo(Screen):    
+class SecondScreen(Screen):
+    #some methods
     pass
-
-
->>>>>>> 45ec60bfa8b0acf19f3f2e1f543fea74b38b8249
-
-class MyGrid(GridLayout):
-    def __init__(self, **kwargs):
-        # ----------------------------------- Create elements -----------------------------------
-        super(MyGrid, self).__init__(**kwargs)
-        # Main Container
-        self.cols = 1
-        # Sub containers
-        self.topRow = GridLayout()
-        self.topRow.cols = 3
-        self.bottomRow = GridLayout()
-        self.bottomRow.cols = 3
-        
-        # Brightness + button
-        self.addBrightButton = Button(text ="+", font_size = 50)
-        self.addBrightButton.background_color = (.5, .5, .5, 1)
-        self.addBrightButton.bind(on_press=self.addBrightPressed)
-        # Brightness - button
-        self.subBrightButton = Button(text ="-", font_size = 50)
-        self.subBrightButton.background_color = (.5, .5, .5, 1)
-        self.subBrightButton.bind(on_press=self.subBrightPressed)
-        # Blue button
-        self.blueButton = Button(text ="", font_size = 30)
-        self.blueButton.background_color = (0, 0, 1, 1)
-        self.blueButton.bind(on_press=self.blueButtonPressed)
-        # Red button
-        self.redButton = Button(text ="", font_size = 30)
-        self.redButton.background_color = (1, 0, 0, 1)
-        self.redButton.bind(on_press=self.redButtonPressed)
-        # Green button
-        self.greenButton = Button(text ="", font_size = 30)
-        self.greenButton.background_color = (0, 1, 0, 1)
-        self.greenButton.bind(on_press=self.greenButtonPressed)
-        # Yellow button
-        self.yellowButton = Button(text ="", font_size = 30)
-        self.yellowButton.background_color = (1, 1, 0, 1)
-        self.yellowButton.bind(on_press=self.yellowButtonPressed)
-        
-        
-        # ----------------------------------- Add elements -----------------------------------
-        self.add_widget(self.topRow) # Add top row container
-        self.add_widget(self.bottomRow) # Add bottom row container
-        self.topRow.add_widget(self.blueButton) # Add blueButton
-        self.topRow.add_widget(self.redButton) # Add redButton
-        self.topRow.add_widget(self.addBrightButton) # Add brightness + button
-        self.bottomRow.add_widget(self.greenButton) # Add greenButton
-        self.bottomRow.add_widget(self.yellowButton) # Add yellowButton
-        self.bottomRow.add_widget(self.subBrightButton) # Add brightness - button
-        
-        
-        
-    # ----------------------------------- Button Press Actions -----------------------------------
-    def addBrightPressed(self, instance):
-        pass
-    def subBrightPressed(self, instance):
-        pass
-    def blueButtonPressed(self, instance):
-        pass
-    def redButtonPressed(self, instance):
-        pass
-    def greenButtonPressed(self, instance):
-        pass
-    def yellowButtonPressed(self, instance):
-        pass
-        
-# ----------------------------------- Running the app -----------------------------------
-class MyApp(App):
-<<<<<<< HEAD
-	def build(self):
-		return MyGrid()
 	
-		
-=======
+class ThirdScreen(Screen):
+    #some methods
+    pass
+
+class MyKivyApp(App):
     def build(self):
-        return screen_manager
-    
-        
->>>>>>> 45ec60bfa8b0acf19f3f2e1f543fea74b38b8249
-if __name__ == "__main__":
-    MyApp().run()
+        return MainScreen()
+
+def main():
+    Builder.load_string(kv_text)
+    app = MyKivyApp()
+    app.run()
+
+if __name__ == '__main__':
+    main()
