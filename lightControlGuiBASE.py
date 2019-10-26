@@ -60,16 +60,27 @@ class MyGrid(GridLayout):
         
     # ----------------------------------- Button Press Actions -----------------------------------
     def addBrightPressed(self, instance):
+        print("add bright")
         pass
+    
     def subBrightPressed(self, instance):
+        print("sub bright")
         pass
+    
     def blueButtonPressed(self, instance):
+        print("blue")
         pass
+    
     def redButtonPressed(self, instance):
+        print("red")
         pass
+    
     def greenButtonPressed(self, instance):
+        print("greeb")
         pass
+    
     def yellowButtonPressed(self, instance):
+        print("yellow")
         pass
         
 # ----------------------------------- Running the app -----------------------------------
