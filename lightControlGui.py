@@ -1,224 +1,173 @@
-from phue import Bridge
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.config import Config
-from kivy.core.window import Window
-Window.fullscreen = True
+from kivy.properties import ObjectProperty
+Config.set('graphics', 'fullscreen', 'auto')
+from phue import Bridge
 
-b = Bridge('192.168.1.188')
+b = Bridge('')
 b.connect()
 
-brightness = 254
-#b.set_light(1,'bri', brightness)
-
-kv_text = """\
-<MainScreen>:
-    FirstScreen:
-    SecondScreen:
-    ThirdScreen:
-
-<FirstScreen>:
-    name: "first_screen"
-    GridLayout:
-        rows: 3
-        padding: 1
-        spacing: 1
-        BoxLayout:
-            size_hint_y: None
-            height: 100
-            spacing: 0
-            Button:
-                text:'RGBY'
-                on_press: 
-                    app.root.current = 'first_screen'
-            Button:
-                text:'TOVP'
-                on_press: 
-                    app.root.transition.direction = 'left'
-                    app.root.transition.duration = .7
-                    app.root.current = 'second_screen'
-            Button:
-                text:'BWG'
-                on_press: 
-                    app.root.transition.direction = 'left'
-                    app.root.transition.duration = .7
-                    app.root.current = 'third_screen'
-        BoxLayout:
-            spacing: 1
-            Button:
-                background_color: (0, 0, 2, 2)
-                text:''
-                on_press: Blue()
-            Button:
-                background_color: (2, 0, 0, 2)
-                text:''
-                on_press:
-                    #b.set_light(1,'xy', (1,.5))
-                    print('Red')
-            Button:
-                font_size: 50
-                text:'+'
-                on_press:
-                    print('Add Brightness')
-        BoxLayout:
-            spacing: 1
-            Button:
-                background_color: (0, 2, 0, 2)
-                text:''
-                on_press:
-                    #b.set_light(1,'xy', (.5,1))
-                    print('Green')
-            Button:
-                background_color: (2, 2, 0, 1)
-                text:''
-                on_press:
-                    #b.set_light(1,'xy', (.5,.5))
-                    print('Yellow')
-            Button:
-                font_size: 50
-                text:'-'
-                on_press:
-                    print('Subtract Brightness')
-
-<SecondScreen>:
-    name: "second_screen"
-    GridLayout:
-        rows: 3
-        padding: 0
-        spacing: 0
-        BoxLayout:
-            size_hint_y: None
-            height: 100
-            spacing: 0
-            Button:
-                text:'RGBY'
-                on_press: 
-                    app.root.transition.direction = 'right'
-                    app.root.transition.duration = .7
-                    app.root.current = 'first_screen'
-            Button:
-                text:'TOVP'
-                on_press: app.root.current = 'second_screen'
-            Button:
-                text:'BWG'
-                on_press: 
-                    app.root.transition.direction = 'left'
-                    app.root.transition.duration = .7
-                    app.root.current = 'third_screen'
-        BoxLayout:
-            spacing: 0
-            Button:
-                background_color: (.5, 1, .8, 1)
-                text:''
-                on_press: print(app.root)
-            Button:
-                background_color: (4, .5, .2, 1)
-                text:''
-                on_press: print('Button X')
-            Button:
-                font_size: 50
-                text:'+'
-                on_press: print('placeholder')
-        BoxLayout:
-            spacing: 0
-            Button:
-                background_color: (1, 0, 1, 1)
-                text:''
-                on_press: print(app.root)
-            Button:
-                background_color: (3, 2, 2, 1)
-                text:''
-                on_press: print('Button X')
-            Button:
-                font_size: 50
-                text:'-'
-                on_press: print('tasklj')
-                
-<ThirdScreen>:
-    name: "third_screen"
-    GridLayout:
-        rows: 3
-        padding: 0
-        spacing: 0
-        BoxLayout:
-            size_hint_y: None
-            height: 100
-            spacing: 0
-            Button:
-                text:'RGBY'
-                on_press: 
-                    app.root.transition.direction = 'right'
-                    app.root.transition.duration = .7
-                    app.root.current = 'first_screen'
-            Button:
-                text:'TOVP'
-                on_press: 
-                    app.root.transition.direction = 'right'
-                    app.root.transition.duration = .7
-                    app.root.current = 'second_screen'
-            Button:
-                text:'BWG'
-                on_press: app.root.current = 'third_screen'
-        BoxLayout:
-            spacing: 0
-            Button:
-                background_color: (2, 2, 2, 1)
-                text:''
-                on_press: print('tajekj')
-            Button:
-                background_color: (1, 1, 1, 1)
-                text:''
-                on_press: print('Button X')
-            Button:
-                font_size: 50
-                text:'+'
-                on_press: print('placeholder')
-        BoxLayout:
-            spacing: 0
-            Button:
-                background_color: (0, 0, 0, .5)
-                text:''
-                on_press: print(app.root)
-            Button:
-                background_color: (5, 5, 5, 1)
-                text:''
-                on_press: print('Button X')
-            Button:
-                font_size: 50
-                text:'-'
-                on_press: print('tasklj')
-"""
-
-def Blue():
-    b.set_light(1,'xy', (.01,.01))
-    print('Blue')
-
+kv_text = Builder.load_file("lightGUI.kv")
+    
 
 class MainScreen(ScreenManager):
     def __init__(self):
         super(MainScreen, self).__init__()
 
 class FirstScreen(Screen):
-    #some methods
-    pass
+    
+    def powerOn(self):
+        b.set_light('Desk Light','on', True)
+        b.set_light('TV Light','on', True)
+    
+    def powerOff(self):
+        b.set_light('Desk Light','on', False)
+        b.set_light('TV Light','on', False)
 
 class SecondScreen(Screen):
-    #some methods
-    pass
-    
-class ThirdScreen(Screen):
-    #some methods
-    pass
 
-class MyKivyApp(App):
+    bri = b.get_light('Desk Light','bri')
+    bri = b.get_light('TV Light','bri')
+    
+    def blue(self):
+        b.set_light('Desk Light','xy', (.01,.01))
+        b.set_light('TV Light','xy', (.01,.01))
+
+    def red(self):
+        b.set_light('Desk Light','xy', (1,.5))
+        b.set_light('TV Light','xy', (1,.5))
+
+    def green(self):
+        b.set_light('Desk Light','xy', (.5,1))
+        b.set_light('TV Light','xy', (.5,1))
+
+    def yellow(self):
+        b.set_light('Desk Light','xy', (.5,.5))
+        b.set_light('TV Light','xy', (.5,.5))
+
+    def addBri(self):
+        if(self.bri > 240):
+            print(self.bri)
+            self.bri = 254
+            b.set_light('Desk Light','bri',self.bri)
+            b.set_light('TV Light','bri',self.bri)
+        else:
+            print(self.bri)
+            self.bri = self.bri + 20
+            b.set_light('Desk Light', 'bri', self.bri)
+            b.set_light('TV Light', 'bri', self.bri)
+
+    def subBri(self):
+        if(self.bri < 20):
+            print(self.bri)
+            self.bri = 1
+            b.set_light('Desk Light','bri',self.bri)
+            b.set_light('TV Light','bri',self.bri)
+        else:
+            print(self.bri)
+            self.bri = self.bri - 20
+            b.set_light('Desk Light', 'bri', self.bri)
+            b.set_light('TV Light', 'bri', self.bri)
+
+class ThirdScreen(Screen):
+
+    bri = b.get_light('Desk Light','bri')
+    bri = b.get_light('TV Light','bri')
+    
+    def teal(self):
+        b.set_light('Desk Light','xy', (.25,.45))
+        b.set_light('TV Light','xy', (.25,.45))
+
+    def orange(self):
+        b.set_light('Desk Light','xy', (0.614, 0.3783))
+        b.set_light('TV Light','xy', (0.614, 0.3783))
+
+    def violet(self):
+        b.set_light('Desk Light','xy', (.3,.1))
+        b.set_light('TV Light','xy', (.3,.1))
+
+    def pink(self):
+        b.set_light('Desk Light','xy', (0.3971, 0.225))
+        b.set_light('TV Light','xy', (0.3971, 0.225))
+
+    def addBri(self):
+        if(self.bri > 240):
+            print(self.bri)
+            self.bri = 254
+            b.set_light('Desk Light','bri',self.bri)
+            b.set_light('TV Light','bri',self.bri)
+        else:
+            print(self.bri)
+            self.bri = self.bri + 20
+            b.set_light('Desk Light', 'bri', self.bri)
+            b.set_light('TV Light', 'bri', self.bri)
+
+    def subBri(self):
+        if(self.bri < 20):
+            print(self.bri)
+            self.bri = 1
+            b.set_light('Desk Light','bri',self.bri)
+            b.set_light('TV Light','bri',self.bri)
+        else:
+            print(self.bri)
+            self.bri = self.bri - 20
+            b.set_light('Desk Light', 'bri', self.bri)
+            b.set_light('TV Light', 'bri', self.bri)
+
+class FourthScreen(Screen):
+    
+    bri = b.get_light('Desk Light','bri')
+    bri = b.get_light('TV Light','bri')
+   
+    def blue(self):
+        b.set_light('Desk Light','xy', (.01,.01))
+        b.set_light('TV Light','xy', (.01,.01))
+
+    def red(self):
+        b.set_light('Desk Light','xy', (1,.5))
+        b.set_light('TV Light','xy', (1,.5))
+
+    def green(self):
+        b.set_light('Desk Light','xy', (.5,1))
+        b.set_light('TV Light','xy', (.5,1))
+
+    def yellow(self):
+        b.set_light('Desk Light','xy', (.5,.5))
+        b.set_light('TV Light','xy', (.5,.5))
+
+    def addBri(self):
+        if(self.bri > 240):
+            print(self.bri)
+            self.bri = 254
+            b.set_light('Desk Light','bri',self.bri)
+            b.set_light('TV Light','bri',self.bri)
+        else:
+            print(self.bri)
+            self.bri = self.bri + 20
+            b.set_light('Desk Light', 'bri', self.bri)
+            b.set_light('TV Light', 'bri', self.bri)
+
+    def subBri(self):
+        if(self.bri < 20):
+            print(self.bri)
+            self.bri = 1
+            b.set_light('Desk Light','bri',self.bri)
+            b.set_light('TV Light','bri',self.bri)
+        else:
+            print(self.bri)
+            self.bri = self.bri - 20
+            b.set_light('Desk Light', 'bri', self.bri)
+            b.set_light('TV Light', 'bri', self.bri)
+
+class MyApp(App):
     def build(self):
         return MainScreen()
 
 def main():
-    Builder.load_string(kv_text)
-    app = MyKivyApp()
-    app.run()
+    b = Bridge('')
+    MyApp().run()
 
 if __name__ == '__main__':
     main()
